@@ -4,26 +4,24 @@ import java.util.Random;
 
 public class Grid extends JComponent {
 
-    int screenWidth, screenHeight, squareSize = 100;
+    int numOfRows = 45, numOfColumns, squareSize;
     Random r = new Random();
-    GridSpace[] row1 = new GridSpace[10];
-    GridSpace[] row2 = new GridSpace[10];
-    GridSpace[] row3 = new GridSpace[10];
-    GridSpace[] row4 = new GridSpace[10];
-    GridSpace[] row5 = new GridSpace[10];
-    GridSpace[] row6 = new GridSpace[10];
-    GridSpace[][] rows = {row1, row2, row3, row4, row5, row6};
-
+    GridSpace[][] matrix;
 
     public Grid(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        // defines the size of the gridSpaces and the number of columns
+        // based on the vertical screen resolution
+        this.squareSize = screenHeight / this.numOfRows;
+        this.numOfColumns = screenWidth / this.squareSize;
 
-        for (int n = 0; n < 6; n++) {
-            int y = n * squareSize;
-            for (int i = 0; i < 10; i++) {
-                int x = i * squareSize;
-                rows[n][i] = new GridSpace(x, y, squareSize, r.nextBoolean());
+        matrix = new GridSpace[this.numOfRows][this.numOfColumns];
+
+        // fills the matrix with GridSpace objects
+        for (int n = 0; n < this.numOfRows; n++) {
+            int y = (n * this.squareSize) + ((screenHeight % squareSize) / 2);
+            for (int i = 0; i < this.numOfColumns; i++) {
+                int x = (i * this.squareSize) + ((screenWidth % squareSize) / 2);
+                matrix[n][i] = new GridSpace(x, y, this.squareSize, r.nextBoolean());
                 /* TODO: Remove these statements when its all stable
                 System.out.print(x);
                 System.out.print(' ');
@@ -36,9 +34,10 @@ public class Grid extends JComponent {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        for (int n = 0; n < 6; n++) {
-            for (int i = 0; i < 10; i++) {
-                GridSpace gridSpace = rows[n][i];
+        // paints the grid of gridSpace objects
+        for (int n = 0; n < this.numOfRows; n++) {
+            for (int i = 0; i < this.numOfColumns; i++) {
+                GridSpace gridSpace = matrix[n][i];
 
                 g2.setColor(Color.BLACK);
                 g2.draw(gridSpace);
@@ -47,7 +46,7 @@ public class Grid extends JComponent {
                 else if (gridSpace.isPlayer())
                     g2.setColor(Color.RED);
                 else
-                    g2.setColor(Color.WHITE);
+                    g2.setColor(Color.LIGHT_GRAY);
                 g2.fill(gridSpace);
             }
         }
