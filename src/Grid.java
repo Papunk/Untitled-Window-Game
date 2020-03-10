@@ -22,11 +22,6 @@ public class Grid extends JComponent {
             for (int i = 0; i < this.numOfColumns; i++) {
                 int x = (i * this.squareSize) + ((screenWidth % squareSize) / 2);
                 matrix[n][i] = new GridSpace(x, y, this.squareSize, r.nextBoolean());
-                /* TODO: Remove these statements when its all stable
-                System.out.print(x);
-                System.out.print(' ');
-                System.out.print(y);
-                */
             }
         }
     }
