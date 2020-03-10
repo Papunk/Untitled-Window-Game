@@ -1,0 +1,6 @@
+This file will contain general info that we want to comunicate.
+I will add some info from the paper we filled out today:
+
+Maze - doesn't care about window size
+Map is a grid where each square has three states: wall, empty, player
+window area, as well as max length and max height are limited
